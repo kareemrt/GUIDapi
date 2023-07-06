@@ -1,9 +1,131 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>My Tornado Web App</title>
+  <title>API Example</title>
 </head>
 <body>
-    <h1>Welcome to my Tornado Web App!</h1>
+  <h1>Sample REST-api</h1>
+
+
+    <input type="text" id="id" placeholder="guid"><br>
+    <input type="text" id="exp" placeholder="expire"><br>
+    <input type="text" id="user" placeholder="user">
+
+    <br><br>
+    <button type="button" onclick="submitPostForm('/guid/')">Create</button>
+    <button type="button" onclick="submitGetForm('/guid/')">Read</button>
+    <button type="button" onclick="submitPostForm('/guid/')">Update</button>
+    <button type="button" onclick="submitDeleteForm('/guid/')">Delete</button>
+    
+    <input type="checkbox" id="check">
+    <label for="check">Show Here</label><br><br>
+
+    <div id="result"></div>
+
+    <script>
+      function submitPostForm(action) {
+          
+        // Get input values (Guid, exp, user)
+        var guidValue = document.getElementById('id').value;
+        action = action + guidValue;
+        var expValue = document.getElementById('exp').value;
+        var userValue = document.getElementById('user').value;
+        data = {
+            guid: guidValue,
+            expire: expValue,
+            user: userValue
+        }
+        // Create new POST request
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', action, true);
+
+        xhr.onreadystatechange = function() {
+            if (xhr.status == 400) {
+                var response = xhr.responseText;
+                var resultElement = document.getElementById('result');
+                resultElement.textContent = JSON.stringify(response);} // Parse the response as JSON if it's a 400 error
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                // Request completed successfully
+                var dataWithoutQuotes = xhr.responseText.replace(/'/g, '"'); // Remove all double quotes from the response text
+                var response = JSON.parse(dataWithoutQuotes);
+
+                var checkbox = document.getElementById('check');
+                var isChecked = checkbox.checked;
+                if (isChecked){
+                    var resultElement = document.getElementById('result');
+                    resultElement.textContent = JSON.stringify(response);
+                }
+                else{ jsonString = JSON.stringify(response); 
+                    document.body.innerHTML = jsonString;
+                }
+                // Process the response
+            }
+        };
+        xhr.send(JSON.stringify(data));
+      }
+
+      function submitGetForm(action) {
+          
+        // Get input values (Guid)
+        var guidValue = document.getElementById('id').value;
+        action = action + guidValue;
+        data = {guid: guidValue}
+        // Create new GET request
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', action, true);
+
+        xhr.onreadystatechange = function() {
+            if (xhr.status == 400) {
+                var response = xhr.responseText;
+                var resultElement = document.getElementById('result');
+                resultElement.textContent = JSON.stringify(response);
+            } // Parse the response as JSON if it's a 400 error
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                // Request completed successfully
+                var dataWithoutQuotes = xhr.responseText.replace(/'/g, '"'); // Remove all double quotes from the response text
+                var response = JSON.parse(dataWithoutQuotes);
+
+                var checkbox = document.getElementById('check');
+                var isChecked = checkbox.checked;
+                if (isChecked){
+                    var resultElement = document.getElementById('result');
+                    resultElement.textContent = JSON.stringify(response);
+                }
+                else{ 
+                    jsonString = JSON.stringify(response); 
+                    document.body.innerHTML = jsonString
+                    var blob = new Blob([jsonString], { type: 'application/json' });
+                    var url = URL.createObjectURL(blob);
+
+                    var link = document.createElement('download');
+                    link.href = url;
+                    link.download = 'data.json';
+                    link.click();
+                    URL.revokeObjectURL(url);
+                }
+            }
+        };
+        xhr.send(JSON.stringify(data));
+      }
+      function submitDeleteForm(action) {
+          
+          // Get input values (Guid)
+          var guidValue = document.getElementById('id').value;
+          action = action + guidValue;
+          data = {guid: guidValue}
+          // Create new GET request
+          var xhr = new XMLHttpRequest();
+          xhr.open('DELETE', action, true);
+  
+          xhr.onreadystatechange = function() {
+              if (xhr.status == 400) {
+                  var response = xhr.responseText;
+                  var resultElement = document.getElementById('result');
+                  resultElement.textContent = JSON.stringify(response);
+              } // Parse the response as JSON if it's a 400 error
+          };
+          xhr.send(JSON.stringify(data));
+        }
+    </script>
 </body>
 </html>
