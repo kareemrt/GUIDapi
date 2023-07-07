@@ -12,7 +12,6 @@ r = redis.Redis(host='localhost', port=6379) # Connect to Redis server
 
 def store(guid, json_data):
     '''Store record in cache using guid'''
-    print(json_data, type(json_data))
     r.hmset(guid, json_data)
 
 def retrieve(guid):
