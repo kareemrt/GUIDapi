@@ -21,7 +21,7 @@ API with web-interface to perform CRUD (Create, Read, Update, Delete) operations
 1. Initialize the database server (MongoDB) and the cache server (Redis) to connect to; this can be checked by running database.py/cache.py
 1. Run the Tornado server, either by
     - directly executing api.py, which requires the dependencies in 'requirements.txt' to be installed
-    - creating & running a docker image using the supplied DockerFile (untested)
+    - creating & running a docker image using the supplied DockerFile
 2. Execute CRUD commands via the API, either by
     - using the web-interface
     - passing information to the endpoints directly
