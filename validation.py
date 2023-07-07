@@ -7,6 +7,8 @@ import secrets
 import re
 import json
 
+# Format Tests ==================================================================
+
 def is_unix(time) -> bool:
     '''Check whether user supplied time is in UNIX format and yet to happen'''
     try:
@@ -26,6 +28,9 @@ def is_json(received_data):
     try: json_data = json.loads(received_data) # Retrieve and parse the JSON data
     except json.JSONDecodeError: return False
     return json_data
+
+# Complicity Checks =============================================================
+
 def can_create(received_data, subpath):
     '''Test validity for whether user can perform CREATE operation'''
 
@@ -61,6 +66,8 @@ def can_update(received_data, subpath):
     if not is_32_bit_hex(subpath): return 'Error! - Create Error: Invalid GUID format (must be 32-bit Hexadecimal Uppercase)'
     json_data['guid'] = subpath
     return json_data
+
+# Generator Functions ===========================================================
 
 def generate_expiration() -> int:
     '''Returns a datetime object 30 days ahead (in case user does not supply expiration)'''

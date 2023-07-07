@@ -14,7 +14,7 @@ API with web-interface to perform CRUD (Create, Read, Update, Delete) operations
 
 ## Architecture
 
-tbd
+![image](<templates/architecture.png>)
 
 ## Use Instructions
 
@@ -27,11 +27,17 @@ tbd
 
 ## Directory Structure
 
-tbd
+- templates: Folder containing HTML file(s) & design architecture
+- api.py: Central framework of web-app/API
+- validation.py: Tests to properly authorize user actions given proper formats
+- database.py: Module to perform CRUD operations with database (MongoDB)
+- cache.py: Module to perform CRUD operations with cache, for quick data retrieval
+- requirements.txt: Required project dependencies
+- DockerFile: A template to be used by docker to re-create the necessary runtime environment (docker container)
 
 ## DB Schema
 
 **DB documents contain:**
-1. GUID
-2. Expiration Time
-3. User
+1. GUID ('guid') - primary key
+2. Expiration Time ('expire')
+3. User ('user')

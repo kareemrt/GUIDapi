@@ -39,7 +39,6 @@ class APIHandler(tornado.web.RequestHandler):
         # UPDATE (existing guid given)
         if subpath != '' and database.find_guid(subpath): 
             status = validation.can_update(received_data, subpath)
-            print(status)
             if type(status) != str: # No validation error
                 update = database.update_guid(status) # returns bool
                 if update: 
@@ -89,12 +88,12 @@ class WebHandler(tornado.web.RequestHandler):
 def create_app():
     '''App Handler Creator'''
     return tornado.web.Application([
-        (r'/', WebHandler),
-        tornado.web.URLSpec(r'/guid/(.*)', APIHandler)
+        (r'/', WebHandler), # Main route handled via web-page
+        tornado.web.URLSpec(r'/guid/(.*)', APIHandler) # API-routes
     ], template_path="templates")
 
 if __name__ == "__main__":
     app = create_app()
     app.listen(8888)
-    tornado.autoreload.start()  # Enable autoreload
+    tornado.autoreload.start()  # Debug mode
     tornado.ioloop.IOLoop.current().start()
