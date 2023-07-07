@@ -28,7 +28,7 @@ class APIHandler(tornado.web.RequestHandler):
             return
         self.set_status(200)
         formatted_record = {'guid': doc['guid'], 'expire': doc['expire'], 'user': doc['user']}
-        self.write(str(formatted_record))
+        self.write(validation.json.dumps(formatted_record))
         return
 
     def post(self, subpath):
@@ -45,7 +45,7 @@ class APIHandler(tornado.web.RequestHandler):
                     record = database.find_guid(subpath)
                     formatted_record = {'guid': record['guid'], 'expire': record['expire'], 'user': record['user']}
                     self.set_status(200)
-                    self.write(str(formatted_record))
+                    self.write(validation.json.dumps(formatted_record))
                     return
                 self.set_status(400)
                 self.write('ERROR! - Update error: Could not update record')
@@ -59,7 +59,7 @@ class APIHandler(tornado.web.RequestHandler):
         if type(status) != str:
             record = database.create_guid(status)
             self.set_status(200)
-            self.write(str(record))
+            self.write(validation.json.dumps(record))
             return
         self.set_status(400)
         self.write(status)

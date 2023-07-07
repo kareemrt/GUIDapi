@@ -17,7 +17,7 @@ def find_guid(guid) -> dict:
     '''Check whether a guid exists in the database'''
     if cache.exists(guid): 
         data = cache.retrieve(guid)
-        return cache.retrieve(guid)
+        return data
     return collection.find_one({"guid": guid}, {'_id': 0})
 
 def create_guid(json_data):

@@ -60,7 +60,12 @@ def can_update(received_data, subpath):
 
     # Expiration Checks
     if 'expire' in json_data:
-        if not is_unix(time = json_data['expire']): return 'Error! - Update Error: Invalid expiration time (must be UNIX format)' # Check time format
+        if json_data['expire'].strip() == '': del json_data['expire'] # remove empty fields (web app creates fields even if empty)
+        elif not is_unix(time = json_data['expire']): return 'Error! - Update Error: Invalid expiration time (must be UNIX format)' # Check time format
+
+    # User Check
+    if 'user' in json_data:
+        if json_data['user'].strip() == '': del json_data['user'] # remove empty fields
 
     # GUID Checks (existence/format)
     if not is_32_bit_hex(subpath): return 'Error! - Create Error: Invalid GUID format (must be 32-bit Hexadecimal Uppercase)'
